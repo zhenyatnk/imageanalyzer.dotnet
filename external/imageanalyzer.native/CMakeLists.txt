@@ -16,7 +16,7 @@ set(${_project_name}_download_dir ${_project_name}_download)
 
 if(INSTALL_DIRECTORY)
     set(CMAKE_INSTALL_PREFIX
-        ${INSTALL_DIRECTORY}/${_project_name}.bin
+        ${INSTALL_DIRECTORY}
         CACHE PATH "Install destination directory.")
 else()
     set(CMAKE_INSTALL_PREFIX
