@@ -12,11 +12,11 @@ namespace ui
 
         public void HandleComplete()
         {
-            Console.WriteLine("Conplete:\t" + m_FileName);
+            Console.WriteLine("Complete:\t'" + m_FileName + "'");
         }
         public void HandleStart()
         {
-            Console.WriteLine("Start:\t" + m_FileName);
+            Console.WriteLine("Start:\t'" + m_FileName + "'");
         }
 
         public void HandleError(string aMessage, int aErrorCode)
