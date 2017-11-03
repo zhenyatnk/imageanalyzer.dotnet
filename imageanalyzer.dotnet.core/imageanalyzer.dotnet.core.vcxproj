@@ -160,7 +160,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CAnalyzer.h" />
+    <ClInclude Include="interfaces\IAnalyzer.h" />
     <ClInclude Include="interfaces\IObserverError.h" />
     <ClInclude Include="interfaces\IObserverTask.h" />
   </ItemGroup>

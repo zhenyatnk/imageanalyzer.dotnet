@@ -19,8 +19,8 @@
     <ClInclude Include="interfaces\IObserverError.h">
       <Filter>interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="CAnalyzer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="interfaces\IAnalyzer.h">
+      <Filter>interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
