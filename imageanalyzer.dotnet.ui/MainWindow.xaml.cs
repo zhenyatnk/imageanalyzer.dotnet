@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.IO;
@@ -17,20 +18,14 @@ namespace imageanalyzer.dotnet.ui
         public MainWindow()
         {
             project = new model.Project();
+            cancel_token = new CancellationTokenSource();
             InitializeComponent();
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            if(string.IsNullOrEmpty(project_filename))
-            {
-                SaveFileDialog dialog = new SaveFileDialog();
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    project_filename = dialog.FileName;
-            }
-
-            if (!string.IsNullOrEmpty(project_filename))
-                Utilities.SaveProjectToFile(project, project_filename);
+            if (project.files_meta_info.Count != 0)
+                project_filename = Save(project_filename);
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
@@ -69,39 +64,62 @@ namespace imageanalyzer.dotnet.ui
             }
         }
 
-
         private void OpenProject_Click(object sender, RoutedEventArgs e)
         {
+            if(project.files_meta_info.Count != 0)
+                project_filename = Save(project_filename);
+
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Project file|*.prj";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                cancel_token.Cancel();
+                cancel_token = new CancellationTokenSource();
                 project_filename = dialog.FileName;
                 project = Utilities.LoadProjectFromFile(project_filename);
-                AnalyzeTask(Utilities.GetNonAnalyzed(project));
+                var Task = AnalyzeTask(Utilities.GetNonAnalyzed(project));
             }
         }
 
-        private void AnalyzeTask(ICollection<model.FileMetaInfo> files_metainfo)
+        private Task AnalyzeTask(ICollection<model.FileMetaInfo> files_metainfo)
         {
             this.ProgressAnalyze.Value = 0;
             this.ProgressAnalyze.Maximum = files_metainfo.Count;
+            var token = cancel_token.Token;
 
-            Task.Factory.StartNew(() =>
+            return Task.Factory.StartNew(() =>
                 {
-                    imageanalyzer.dotnet.core.interfaces.IAnalyzer analyzer = imageanalyzer.dotnet.core.IAnalyzerCreate.Create();
-                    foreach (var file_metainfo in files_metainfo)
+                    using (imageanalyzer.dotnet.core.interfaces.IAnalyzer analyzer = imageanalyzer.dotnet.core.IAnalyzerCreate.Create())
                     {
-                        analyzer.add_task(file_metainfo.imagefile_full_name, new List<imageanalyzer.dotnet.core.interfaces.IObserverTask>
+                        foreach (var file_metainfo in files_metainfo)
+                        {
+                            analyzer.add_task(file_metainfo.imagefile_full_name, new List<imageanalyzer.dotnet.core.interfaces.IObserverTask>
                                                                                     { new ObserverTaskMeta(file_metainfo),
                                                                                       new ObserverTaskProgress(this.ProgressAnalyze)});
+                        }
+                        while (!token.IsCancellationRequested && !analyzer.complete())
+                            Thread.Sleep(500);
                     }
-                    analyzer.wait();
-                });
+                }, token);
+        }
+        private string Save(string project_name)
+        {
+            cancel_token.Cancel();
+            cancel_token = new CancellationTokenSource();
+            if (string.IsNullOrEmpty(project_name))
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    project_name = dialog.FileName;
+            }
+
+            if (!string.IsNullOrEmpty(project_name))
+                Utilities.SaveProjectToFile(project, project_name);
+            return project_name;
         }
         
         private model.Project project;
         private string project_filename;
-
+        private CancellationTokenSource cancel_token;
     }
 }

@@ -12,9 +12,10 @@ namespace core {
 namespace interfaces {
 
 public interface class IAnalyzer
+    :public IDisposable
 {
     void add_task(String^ aFileName,  ICollection<interfaces::IObserverTask^>^ aObservers);
-    void wait();
+    bool complete();
 };
 
 }

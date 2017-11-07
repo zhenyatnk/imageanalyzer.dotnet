@@ -1,8 +1,10 @@
 #include "interfaces/IAnalyzer.h" 
 #include "imageanalyzer/core/Tasks.hpp" 
+#include "threadpoolex/core/ITaskEx.hpp" 
 #include "threadpoolex/core/ITaskWait.hpp" 
 
 #include <vector>
+#include <atomic>
 #include <vcclr.h>
 
 namespace imageanalyzer {
@@ -14,6 +16,23 @@ using namespace imageanalyzer::core;
 
 namespace {
 
+class CObserverCompleted
+    :public EmptyObserverTask
+{
+public:
+    CObserverCompleted(std::atomic_int &aCountCompleted)
+        :m_CountCompleted(aCountCompleted)
+    {}
+
+    virtual void HandleComplete() override
+    {
+        ++m_CountCompleted;
+    }
+
+private:
+    std::atomic_int & m_CountCompleted;
+};
+//------------------------------------------------------
 class CObserverProxy
     :public IObserverTask
 {
@@ -40,7 +59,7 @@ public:
 private:
     gcroot<interfaces::IObserverTask^> m_Observer;
 };
-
+//------------------------------------------------------
 class CObserverTryExpansion
     :public EmptyObserverTimer
 {
@@ -57,7 +76,7 @@ public:
 private:
     IThreadPool::Ptr m_ThreadPool;
 };
-
+//------------------------------------------------------
 std::wstring MarshalString(String ^ s)
 {
     std::wstring os;
@@ -79,45 +98,47 @@ public:
     ~CAnalyzer();
 
     virtual void add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObserver) override;
-    virtual void wait() override;
+    virtual bool complete() override;
 
 private:
     threadpoolex::core::ITimerActive::Ptr* m_timer;
-    std::vector<IWait::Ptr> *m_Waiters;
+    threadpoolex::core::IThreadPool::Ptr* m_threadpool;
+    std::atomic_int* m_CountCompleted;
+    std::atomic_int* m_Count;
 };
 
 CAnalyzer::CAnalyzer()
-    :m_timer(new ITimerActive::Ptr(CreateTimerActive(1000)))
+    :m_timer(new ITimerActive::Ptr(CreateTimerActive(1000))),
+    m_threadpool(new threadpoolex::core::IThreadPool::Ptr(CreateThreadPool(1, CreateExpansionToCPU(threadpoolex::core::CreateSystemInfo(), 80, 1)))),
+    m_CountCompleted(new std::atomic_int(0)),
+    m_Count(new std::atomic_int(0))
 {
-    (*m_timer)->AddObserver(std::make_shared<CObserverTryExpansion>(ThreadPoolGlobal::GetInstance()()));
-    m_Waiters = new std::vector<IWait::Ptr>();
+    (*m_timer)->AddObserver(std::make_shared<CObserverTryExpansion>(*m_threadpool));
 }
 
 CAnalyzer::~CAnalyzer()
 {
+    delete m_CountCompleted;
+    delete m_Count;
+    delete m_threadpool;
     delete m_timer;
-    delete m_Waiters;
 }
 
 void CAnalyzer::add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObjservers)
 {
-    IWait::Ptr lwaiter;
-    auto task = CreateTaskWait(CreateTaskAnalyzeInFile(MarshalString(aFileName)), lwaiter);
+    auto task = CreateTaskAnalyzeInFile(MarshalString(aFileName));
     
     for each (interfaces::IObserverTask^ objserver in aObjservers)
         task->AddObserver(IObserverTask::Ptr(new CObserverProxy(objserver)));
+    task->AddObserver(IObserverTask::Ptr(new CObserverCompleted(*m_CountCompleted)));
 
-    ThreadPoolGlobal::GetInstance()()->AddTask(task);
-    m_Waiters->push_back(lwaiter);
+    ++(*m_Count);
+    (*m_threadpool)->AddTask(task);
 }
 
-void CAnalyzer::wait()
+bool CAnalyzer::complete()
 {
-    for (auto wait : *m_Waiters)
-        wait->Wait();
-
-    delete m_Waiters;
-    m_Waiters = new std::vector<IWait::Ptr>();
+    return *m_CountCompleted == *m_Count;
 }
 
 interfaces::IAnalyzer^ IAnalyzerCreate::Create()
