@@ -78,7 +78,7 @@ public:
     CAnalyzer();
     ~CAnalyzer();
 
-    virtual void add_task(String^ aFileName, interfaces::IObserverTask^ aObserver) override;
+    virtual void add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObserver) override;
     virtual void wait() override;
 
 private:
@@ -99,11 +99,14 @@ CAnalyzer::~CAnalyzer()
     delete m_Waiters;
 }
 
-void CAnalyzer::add_task(String^ aFileName, interfaces::IObserverTask^ aObjserver)
+void CAnalyzer::add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObjservers)
 {
     IWait::Ptr lwaiter;
     auto task = CreateTaskWait(CreateTaskAnalyzeInFile(MarshalString(aFileName)), lwaiter);
-    task->AddObserver(IObserverTask::Ptr(new CObserverProxy(aObjserver)));
+    
+    for each (interfaces::IObserverTask^ objserver in aObjservers)
+        task->AddObserver(IObserverTask::Ptr(new CObserverProxy(objserver)));
+
     ThreadPoolGlobal::GetInstance()()->AddTask(task);
     m_Waiters->push_back(lwaiter);
 }

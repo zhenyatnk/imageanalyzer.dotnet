@@ -1,20 +1,11 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.IO;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace imageanalyzer.dotnet.ui
 {
@@ -25,37 +16,92 @@ namespace imageanalyzer.dotnet.ui
     {
         public MainWindow()
         {
+            project = new model.Project();
             InitializeComponent();
         }
 
-        private void Add_Folder_Click(object sender, RoutedEventArgs e)
+        protected override void OnClosed(EventArgs e)
+        {
+            if(string.IsNullOrEmpty(project_filename))
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    project_filename = dialog.FileName;
+            }
+
+            if (!string.IsNullOrEmpty(project_filename))
+                Utilities.SaveProjectToFile(project, project_filename);
+        }
+
+        private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                AnalyzeTask(Directory.GetFiles(dialog.SelectedPath));
+            {
+                var files_metainfo = new List<model.FileMetaInfo>();
+                var fileNames = Directory.GetFiles(dialog.SelectedPath);
+                foreach (string file in fileNames)
+                {
+                    var file_metadata = new model.FileMetaInfo();
+                    file_metadata.imagefile_full_name = file;
+                    project.files_meta_info.Add(file_metadata);
+                    files_metainfo.Add(file_metadata);
+                }
+                AnalyzeTask(files_metainfo);
+            }
         }
 
-        private void Add_Files_Click(object sender, RoutedEventArgs e)
+        private void AddFiles_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                AnalyzeTask(dialog.FileNames);
+            {
+                var files_metainfo = new List<model.FileMetaInfo>();
+                foreach (string file in dialog.FileNames)
+                {
+                    var file_metadata = new model.FileMetaInfo();
+                    file_metadata.imagefile_full_name = file;
+                    project.files_meta_info.Add(file_metadata);
+                    files_metainfo.Add(file_metadata);
+                }
+                AnalyzeTask(files_metainfo);
+            }
         }
 
-        private void AnalyzeTask(string[] fileNames)
+
+        private void OpenProject_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Project file|*.prj";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                project_filename = dialog.FileName;
+                project = Utilities.LoadProjectFromFile(project_filename);
+                AnalyzeTask(Utilities.GetNonAnalyzed(project));
+            }
+        }
+
+        private void AnalyzeTask(ICollection<model.FileMetaInfo> files_metainfo)
         {
             this.ProgressAnalyze.Value = 0;
-            this.ProgressAnalyze.Maximum = fileNames.Length;
+            this.ProgressAnalyze.Maximum = files_metainfo.Count;
+
             Task.Factory.StartNew(() =>
                 {
                     imageanalyzer.dotnet.core.interfaces.IAnalyzer analyzer = imageanalyzer.dotnet.core.IAnalyzerCreate.Create();
-                    foreach (string file in fileNames)
+                    foreach (var file_metainfo in files_metainfo)
                     {
-                        analyzer.add_task(file, new ObserverTask(this.ProgressAnalyze));
+                        analyzer.add_task(file_metainfo.imagefile_full_name, new List<imageanalyzer.dotnet.core.interfaces.IObserverTask>
+                                                                                    { new ObserverTaskMeta(file_metainfo),
+                                                                                      new ObserverTaskProgress(this.ProgressAnalyze)});
                     }
                     analyzer.wait();
                 });
         }
+        
+        private model.Project project;
+        private string project_filename;
 
     }
 }

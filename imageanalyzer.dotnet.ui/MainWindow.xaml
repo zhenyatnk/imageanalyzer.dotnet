@@ -13,8 +13,9 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="8,8,8,8">
-                <Button Content="Add folder" Click="Add_Folder_Click" Margin="0,0,0,2" />
-                <Button Content="Add files" Click="Add_Files_Click" Margin="0,0,0,2" />
+                <Button Content="Open project" Click="OpenProject_Click" Margin="0,0,0,2" />
+                <Button Content="Add folder" Click="AddFolder_Click" Margin="0,0,0,2" />
+                <Button Content="Add files" Click="AddFiles_Click" Margin="0,0,0,2" />
             </StackPanel>
             <StackPanel Name="StatusStack" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <TextBlock Text="Analyzing..." HorizontalAlignment="Center"  Margin="0,0,0,4" />

@@ -1,0 +1,7 @@
+.build/
+.vs/
+obj/
+packages/
+*.db
+*.opendb
+*.user
