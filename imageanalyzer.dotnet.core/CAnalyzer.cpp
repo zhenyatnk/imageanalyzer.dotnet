@@ -120,8 +120,8 @@ CAnalyzer::~CAnalyzer()
 {
     delete m_CountCompleted;
     delete m_Count;
-    delete m_threadpool;
     delete m_timer;
+    delete m_threadpool;
 }
 
 void CAnalyzer::add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObjservers)

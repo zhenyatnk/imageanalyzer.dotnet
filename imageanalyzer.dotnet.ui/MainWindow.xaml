@@ -4,7 +4,7 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   Name="MainW"
                   Title="imageanalyzer.dotnet.ui"
-                  Style="{StaticResource BlankWindow}" Height="206">
+                  Style="{StaticResource BlankWindow}" Height="305.225">
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,8 +18,16 @@
                 <Button Content="Add files" Click="AddFiles_Click" Margin="0,0,0,2" />
             </StackPanel>
             <StackPanel Name="StatusStack" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <TextBlock Text="Analyzing..." HorizontalAlignment="Center"  Margin="0,0,0,4" />
-                <ProgressBar Name="ProgressAnalyze" Height="3" Width="250" Margin="0,0,0,4" />
+                <ItemsControl Name="items_controls">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Title}"  HorizontalAlignment="Center"/>
+                                <ProgressBar Width="350" Height="5" Minimum="0" Maximum="100" Value="{Binding Progress}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Grid>
     </ScrollViewer>

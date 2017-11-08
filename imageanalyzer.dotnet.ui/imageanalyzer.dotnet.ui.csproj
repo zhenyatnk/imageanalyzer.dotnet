@@ -69,7 +69,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="operations\IObserverOperation.cs" />
+    <Compile Include="Notifier.cs" />
+    <Compile Include="operations\OperationCheck.cs" />
+    <Compile Include="operations\OperationAnalyze.cs" />
+    <Compile Include="operations\IOperation.cs" />
+    <Compile Include="operations\ObserverOperation.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Wrapped.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

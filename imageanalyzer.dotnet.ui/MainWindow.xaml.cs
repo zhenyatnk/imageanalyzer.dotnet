@@ -20,6 +20,8 @@ namespace imageanalyzer.dotnet.ui
             project = new model.Project();
             cancel_token = new CancellationTokenSource();
             InitializeComponent();
+
+            Subscride(()=>{ CheckTask(project); }, 1000*60);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -28,22 +30,13 @@ namespace imageanalyzer.dotnet.ui
                 project_filename = Save(project_filename);
         }
 
-        private void AddFolder_Click(object sender, RoutedEventArgs e)
+        private void Subscride(OperationFunction function, double interval)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var files_metainfo = new List<model.FileMetaInfo>();
-                var fileNames = Directory.GetFiles(dialog.SelectedPath);
-                foreach (string file in fileNames)
-                {
-                    var file_metadata = new model.FileMetaInfo();
-                    file_metadata.imagefile_full_name = file;
-                    project.files_meta_info.Add(file_metadata);
-                    files_metainfo.Add(file_metadata);
-                }
-                AnalyzeTask(files_metainfo);
-            }
+            var timer = new System.Timers.Timer(interval);
+
+            timer.Elapsed += (source, e) => { function(); };
+            timer.AutoReset = true;
+            timer.Enabled = true;
         }
 
         private void AddFiles_Click(object sender, RoutedEventArgs e)
@@ -64,6 +57,23 @@ namespace imageanalyzer.dotnet.ui
             }
         }
 
+        private void AddFolder_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var files_metainfo = new List<model.FileMetaInfo>();
+                var fileNames = Directory.GetFiles(dialog.SelectedPath, "*.jpg");
+                foreach (string file in fileNames)
+                {
+                    var file_metadata = new model.FileMetaInfo();
+                    file_metadata.imagefile_full_name = file;
+                    project.files_meta_info.Add(file_metadata);
+                    files_metainfo.Add(file_metadata);
+                }
+                AnalyzeTask(files_metainfo);
+            }
+        }
         private void OpenProject_Click(object sender, RoutedEventArgs e)
         {
             if(project.files_meta_info.Count != 0)
@@ -77,31 +87,24 @@ namespace imageanalyzer.dotnet.ui
                 cancel_token = new CancellationTokenSource();
                 project_filename = dialog.FileName;
                 project = Utilities.LoadProjectFromFile(project_filename);
-                var Task = AnalyzeTask(Utilities.GetNonAnalyzed(project));
+                AnalyzeTask(Utilities.GetNonAnalyzed(project));
             }
         }
 
-        private Task AnalyzeTask(ICollection<model.FileMetaInfo> files_metainfo)
+        private void AnalyzeTask(ICollection<model.FileMetaInfo> files_metainfo)
         {
-            this.ProgressAnalyze.Value = 0;
-            this.ProgressAnalyze.Maximum = files_metainfo.Count;
-            var token = cancel_token.Token;
-
-            return Task.Factory.StartNew(() =>
-                {
-                    using (imageanalyzer.dotnet.core.interfaces.IAnalyzer analyzer = imageanalyzer.dotnet.core.IAnalyzerCreate.Create())
-                    {
-                        foreach (var file_metainfo in files_metainfo)
-                        {
-                            analyzer.add_task(file_metainfo.imagefile_full_name, new List<imageanalyzer.dotnet.core.interfaces.IObserverTask>
-                                                                                    { new ObserverTaskMeta(file_metainfo),
-                                                                                      new ObserverTaskProgress(this.ProgressAnalyze)});
-                        }
-                        while (!token.IsCancellationRequested && !analyzer.complete())
-                            Thread.Sleep(500);
-                    }
-                }, token);
+            var operation = new operations.OperationAnalyze(files_metainfo, cancel_token.Token);
+            operation.AddObserver(new operations.ObserverOperation("Analyzing", items_controls));
+            operation.Execute();
         }
+
+        private void CheckTask(model.Project project)
+        {
+            var operation = new operations.OperationCheck(project, items_controls, cancel_token.Token);
+            operation.AddObserver(new operations.ObserverOperation("Checking", items_controls));
+            operation.Execute();
+        }
+
         private string Save(string project_name)
         {
             cancel_token.Cancel();
@@ -117,7 +120,9 @@ namespace imageanalyzer.dotnet.ui
                 Utilities.SaveProjectToFile(project, project_name);
             return project_name;
         }
-        
+
+        delegate void OperationFunction();
+
         private model.Project project;
         private string project_filename;
         private CancellationTokenSource cancel_token;

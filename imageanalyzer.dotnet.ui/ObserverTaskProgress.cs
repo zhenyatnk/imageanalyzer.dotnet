@@ -13,16 +13,19 @@ namespace imageanalyzer.dotnet.ui
     class ObserverTaskProgress 
         : imageanalyzer.dotnet.core.interfaces.IObserverTask
     {
-        public ObserverTaskProgress(ProgressBar progress)
+        public ObserverTaskProgress(operations.INotifierProgress _notifier_progress, int _count, Wrapped<int> _worked )
         {
-            m_progress = progress;
+            notifier_progress = _notifier_progress;
+            count = _count;
+            worked = _worked;
         }
 
         public void HandleComplete()
         {
             Task.Factory.StartNew(() =>
             {
-                m_progress.Dispatcher.Invoke(new Action(delegate { m_progress.Value += 1; }));
+                ++worked.value;
+                notifier_progress.NotifyChangeProgress((100.0 * worked.value) /count);
             });
         }
         public void HandleStart()
@@ -31,6 +34,8 @@ namespace imageanalyzer.dotnet.ui
         public void HandleError(string aMessage, int aErrorCode)
         { }
 
-        private ProgressBar m_progress;
+        private operations.INotifierProgress notifier_progress;
+        private int count;
+        private Wrapped<int> worked;
     }
 }
