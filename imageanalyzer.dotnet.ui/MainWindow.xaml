@@ -2,7 +2,6 @@
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-                  Name="MainW"
                   Title="imageanalyzer.dotnet.ui"
                   Style="{StaticResource BlankWindow}" Height="305.225">
     <ScrollViewer>
@@ -13,12 +12,12 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="8,8,8,8">
-                <Button Content="Open project" Click="OpenProject_Click" Margin="0,0,0,2" />
-                <Button Content="Add folder" Click="AddFolder_Click" Margin="0,0,0,2" />
-                <Button Content="Add files" Click="AddFiles_Click" Margin="0,0,0,2" />
+                <Button Content="Open project" Command="{Binding OpenProjectCommand}" Margin="0,0,0,2" />
+                <Button Content="Add folder" Command="{Binding AddFolderCommand}" Margin="0,0,0,2" />
+                <Button Content="Add files" Command="{Binding AddFilesCommand}" Margin="0,0,0,2" />
             </StackPanel>
             <StackPanel Name="StatusStack" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <ItemsControl Name="items_controls">
+                <ItemsControl ItemsSource="{Binding Operations}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">

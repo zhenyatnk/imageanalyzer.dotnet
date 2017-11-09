@@ -76,6 +76,15 @@
     <Compile Include="operations\IOperation.cs" />
     <Compile Include="operations\ObserverOperation.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="view_model\command\CheckCommand.cs" />
+    <Compile Include="view_model\command\SaveProjectCommand.cs" />
+    <Compile Include="view_model\command\AddFilesCommand.cs" />
+    <Compile Include="view_model\command\OpenProjectCommand.cs" />
+    <Compile Include="view_model\command\AddFolderCommand.cs" />
+    <Compile Include="view_model\command\CancelCommand.cs" />
+    <Compile Include="view_model\ObservableCollectionDisp.cs" />
+    <Compile Include="view_model\OperationView.cs" />
+    <Compile Include="view_model\ViewModel.cs" />
     <Compile Include="Wrapped.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

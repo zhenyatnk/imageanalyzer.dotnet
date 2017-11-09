@@ -13,7 +13,7 @@ namespace imageanalyzer.dotnet.ui.operations
     public class OperationCheck
         : CBaseObservableOperation, IOperation 
     {
-        public OperationCheck(model.Project _project, ItemsControl _items, CancellationToken _cancel)
+        public OperationCheck(model.Project _project, view_model.ObservableCollectionDisp<view_model.OperationView> _items, CancellationTokenSource _cancel)
         {
             project = _project;
             items = _items;
@@ -55,15 +55,15 @@ namespace imageanalyzer.dotnet.ui.operations
             }).ContinueWith( list => {
                 if(list.Result.Count != 0)
                 {
-                    var operation = new OperationAnalyze(list.Result, cancel);
-                    operation.AddObserver(new ObserverOperation("Analyze", items));
+                    var operation = new OperationAnalyze(list.Result, cancel.Token);
+                    operation.AddObserver(new ObserverOperation("Analyze", new view_model.OperationView(items, cancel)));
                     operation.Execute();
                 }
             });
         }
 
         private model.Project project;
-        private ItemsControl items;
-        private CancellationToken cancel;
+        private view_model.ObservableCollectionDisp<view_model.OperationView> items;
+        private CancellationTokenSource cancel;
     }
 }

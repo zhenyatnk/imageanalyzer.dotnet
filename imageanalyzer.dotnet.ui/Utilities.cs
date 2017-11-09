@@ -9,17 +9,6 @@ namespace imageanalyzer.dotnet.ui
 {
     public static class Utilities
     {
-        public static List<model.FileMetaInfo> GetNonAnalyzed(model.Project project)
-        {
-            List<model.FileMetaInfo> files_analyzing = new List<model.FileMetaInfo>();
-            foreach (var file in project.files_meta_info)
-            {
-                if (string.IsNullOrEmpty(file.datafile_full_name))
-                    files_analyzing.Add(file);
-            }
-            return files_analyzing;
-        }
-
         public static void SaveProjectToFile(model.Project project, string filename)
         {
             JsonSerializer serializer = new JsonSerializer();

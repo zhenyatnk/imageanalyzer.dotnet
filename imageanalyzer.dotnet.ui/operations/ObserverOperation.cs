@@ -11,61 +11,30 @@ namespace imageanalyzer.dotnet.ui.operations
 	public class ObserverOperation
 		: Notifier, IObserverOperation
     {
-		public ObserverOperation(string _task_name, ItemsControl _items)
+		public ObserverOperation(string _task_name, view_model.OperationView _view)
 		{
 			task_name = _task_name;
-			items = _items;
+            view = _view;
 		}
+
 		//IObserver
 		public void HandleStart()
 		{
-            Title = task_name + " starting...";
-
-            List<ObserverOperation> items_list = new List<ObserverOperation>();
-            if (items.ItemsSource != null)
-                items_list.AddRange(items.ItemsSource as IEnumerable<ObserverOperation>);
-            items_list.Add(this);
-
-            items.Dispatcher.Invoke(new Action(() => { items.ItemsSource = items_list; }));
+            view.Title = task_name + " starting...";
         }
+
 		public void HandleChangeProgress(double aPercent)
 		{
-			Title = task_name + "...";
-			Progress = aPercent;
+            view.Title = task_name + "...";
+            view.Progress = aPercent;
 		}
 		public void HandleComplete()
 		{
-			Title = task_name + " complete";
-			List<ObserverOperation> items_list = new List<ObserverOperation>();
-			if (items.ItemsSource != null)
-				items_list.AddRange(items.ItemsSource as IEnumerable<ObserverOperation>);
+            view.Title = task_name + " complete";
+            view.Complete = true;
+        }
 
-			items_list.Remove(this);
-			items.Dispatcher.Invoke(new Action(()=> { items.ItemsSource = items_list; }));
-		}
-		//Notifier fields
-		public double Progress
-		{
-			get { return progress; }
-			set
-			{
-				progress = value;
-				NotifyPropertyChanged("Progress");
-			}
-		}
-		public string Title
-		{
-			get { return title; }
-			set
-			{
-				title = value;
-				NotifyPropertyChanged("Title");
-			}
-		}
-
-		private double progress;
-		private string title;
 		private string task_name;
-		private ItemsControl items;
-	}
+        private view_model.OperationView view;
+    }
 }
