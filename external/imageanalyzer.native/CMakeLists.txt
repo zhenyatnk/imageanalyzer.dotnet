@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-set(_project_name imageanalyzer)
+set(_project_name imageanalyzer.native)
 
 #
 # Parameters repository
 #
-set(${_project_name}_repo "https://github.com/zhenyatnk/imageanalyzer.git")
+set(${_project_name}_repo "https://github.com/zhenyatnk/imageanalyzer.native.git")
 set(${_project_name}_tag "master")
 
 set(${_project_name}_main_dir ${CMAKE_CURRENT_BINARY_DIR})

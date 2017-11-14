@@ -1,5 +1,5 @@
 #include "interfaces/IAnalyzer.h" 
-#include "imageanalyzer/core/Tasks.hpp" 
+#include "imageanalyzer.native/core/Tasks.hpp" 
 #include "threadpoolex/core/ITaskEx.hpp" 
 #include "threadpoolex/core/ITaskWait.hpp" 
 
@@ -12,7 +12,7 @@ namespace dotnet {
 namespace core {
 
 using namespace threadpoolex::core;
-using namespace imageanalyzer::core;
+using namespace imageanalyzer::native::core;
 
 namespace {
 
