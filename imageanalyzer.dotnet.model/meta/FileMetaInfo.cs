@@ -1,4 +1,4 @@
-﻿namespace imageanalyzer.dotnet.model
+﻿namespace imageanalyzer.dotnet.model.meta
 {
     public class FileMetaInfo
     {

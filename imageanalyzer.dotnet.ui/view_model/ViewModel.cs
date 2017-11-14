@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace imageanalyzer.dotnet.ui.view_model
 {
     public class ViewModel
@@ -10,8 +6,7 @@ namespace imageanalyzer.dotnet.ui.view_model
     {
         public ViewModel()
         {
-            project_name = "New";
-            project = new model.Project();
+            project = new model.meta.Project();
             operations = new ObservableCollectionDisp<OperationView>();
 
             AddFilesCommand = new command.AddFilesCommand(this);
@@ -21,7 +16,7 @@ namespace imageanalyzer.dotnet.ui.view_model
             CheckCommand = new command.CheckCommand(this);
         }
 
-        public model.Project Project
+        public model.meta.Project Project
         {
             get
             {
@@ -67,7 +62,7 @@ namespace imageanalyzer.dotnet.ui.view_model
         public command.CheckCommand CheckCommand { get; set; }
 
         private ObservableCollectionDisp<OperationView> operations;
-        private model.Project project;
+        private model.meta.Project project;
         private string project_name;
     }
 }

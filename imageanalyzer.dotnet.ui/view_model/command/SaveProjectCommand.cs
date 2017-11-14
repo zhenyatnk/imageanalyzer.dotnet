@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -27,7 +22,7 @@ namespace imageanalyzer.dotnet.ui.view_model.command
             }
 
             if (!string.IsNullOrEmpty(model_view.ProjectName))
-                Utilities.SaveProjectToFile(model_view.Project, model_view.ProjectName);
+                model.utilities.ProjectHelper.SaveToFile(model_view.Project, model_view.ProjectName);
         }
 
 		public bool CanExecute(object parameter)

@@ -1,12 +1,5 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Windows;
-using System.Windows.Forms;
-using System.IO;
 
 namespace imageanalyzer.dotnet.ui
 {

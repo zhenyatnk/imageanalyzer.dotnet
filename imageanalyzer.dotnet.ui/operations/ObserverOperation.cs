@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace imageanalyzer.dotnet.ui.operations
 {
 	public class ObserverOperation
-		: Notifier, IObserverOperation
+		: Notifier, model.operations.IObserverOperation
     {
 		public ObserverOperation(string _task_name, view_model.OperationView _view)
 		{

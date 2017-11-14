@@ -40,10 +40,6 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
@@ -69,13 +65,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="operations\IObserverOperation.cs" />
     <Compile Include="Notifier.cs" />
-    <Compile Include="operations\OperationCheck.cs" />
-    <Compile Include="operations\OperationAnalyze.cs" />
-    <Compile Include="operations\IOperation.cs" />
     <Compile Include="operations\ObserverOperation.cs" />
-    <Compile Include="Utilities.cs" />
     <Compile Include="view_model\command\CheckCommand.cs" />
     <Compile Include="view_model\command\SaveProjectCommand.cs" />
     <Compile Include="view_model\command\AddFilesCommand.cs" />
@@ -85,7 +76,6 @@
     <Compile Include="view_model\ObservableCollectionDisp.cs" />
     <Compile Include="view_model\OperationView.cs" />
     <Compile Include="view_model\ViewModel.cs" />
-    <Compile Include="Wrapped.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,18 +84,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ObserverTaskMeta.cs" />
-    <Compile Include="ObserverTaskProgress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\imageanalyzer.dotnet.core\imageanalyzer.dotnet.core.vcxproj">
-      <Project>{345c6b0a-0059-4904-9ec4-48eb3c6fd8fb}</Project>
-      <Name>imageanalyzer.dotnet.core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\imageanalyzer.dotnet.model\imageanalyzer.dotnet.model.csproj">
       <Project>{d191ed86-e5a3-479e-99c0-c086e556d538}</Project>
       <Name>imageanalyzer.dotnet.model</Name>

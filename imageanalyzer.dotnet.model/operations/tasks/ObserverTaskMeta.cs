@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Windows.Controls;
-using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace imageanalyzer.dotnet.ui
+namespace imageanalyzer.dotnet.model.operations.tasks
 {
     class ObserverTaskMeta 
         : imageanalyzer.dotnet.core.interfaces.IObserverTask
     {
-        public ObserverTaskMeta(model.FileMetaInfo metainfo)
+        public ObserverTaskMeta(meta.FileMetaInfo metainfo)
         {
             m_metainfo = metainfo;
         }
@@ -38,6 +33,6 @@ namespace imageanalyzer.dotnet.ui
         public void HandleError(string aMessage, int aErrorCode)
         {}
 
-        private model.FileMetaInfo m_metainfo;
+        private meta.FileMetaInfo m_metainfo;
     }
 }

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,9 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileMetaInfo.cs" />
-    <Compile Include="Project.cs" />
+    <Compile Include="meta\FileMetaInfo.cs" />
+    <Compile Include="operations\tasks\ObserverTaskMeta.cs" />
+    <Compile Include="operations\tasks\ObserverTaskProgress.cs" />
+    <Compile Include="operations\IObserverOperation.cs" />
+    <Compile Include="operations\IOperation.cs" />
+    <Compile Include="operations\OperationAnalyze.cs" />
+    <Compile Include="operations\OperationCheck.cs" />
+    <Compile Include="meta\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utilities\Utilities.cs" />
+    <Compile Include="utilities\Wrapped.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\imageanalyzer.dotnet.core\imageanalyzer.dotnet.core.vcxproj">
+      <Project>{345c6b0a-0059-4904-9ec4-48eb3c6fd8fb}</Project>
+      <Name>imageanalyzer.dotnet.core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

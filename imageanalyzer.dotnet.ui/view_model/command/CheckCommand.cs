@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace imageanalyzer.dotnet.ui.view_model.command
@@ -20,7 +15,7 @@ namespace imageanalyzer.dotnet.ui.view_model.command
         public void Execute(object parameter)
 		{
             var cancel = new CancellationTokenSource();
-            var operation = new operations.OperationCheck(model_view.Project, model_view.Operations, cancel);
+            var operation = new model.operations.OperationCheck(model_view.Project, new operations.ObserverOperation("Analyze", new OperationView(model_view.Operations, cancel)), cancel);
             operation.AddObserver(new operations.ObserverOperation("Checking", new OperationView(model_view.Operations, cancel)));
             operation.Execute();
         }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
-using System.Text;
 
-namespace imageanalyzer.dotnet.ui
+namespace imageanalyzer.dotnet.model.utilities
 {
-    public static class Utilities
+    public static class ProjectHelper
     {
-        public static void SaveProjectToFile(model.Project project, string filename)
+        public static void SaveToFile(meta.Project project, string filename)
         {
             JsonSerializer serializer = new JsonSerializer();
             using (StreamWriter stream = new StreamWriter(filename))
@@ -19,16 +15,18 @@ namespace imageanalyzer.dotnet.ui
             }
         }
 
-        public static model.Project LoadProjectFromFile(string filename)
+        public static meta.Project LoadFromFile(string filename)
         {
-            var project = new model.Project();
+            var project = new meta.Project();
             var serializer = new JsonSerializer();
             using (var stream = new StreamReader(filename))
             using (var reader = new JsonTextReader(stream))
             {
-                project = serializer.Deserialize<model.Project>(reader);
+                project = serializer.Deserialize<meta.Project>(reader);
             }
             return project;
         }
     }
+
+
 }

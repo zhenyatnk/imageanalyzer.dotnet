@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace imageanalyzer.dotnet.model
+namespace imageanalyzer.dotnet.model.meta
 {
     public class Project
     {
