@@ -105,7 +105,7 @@
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install</Command>
+      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install Debug</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,7 +121,7 @@
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install</Command>
+      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install Debug -x64</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install</Command>
+      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install RelWithDebInfo</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install</Command>
+      <Command>$(SolutionDir)\external\imageanalyzer.native\build.cmd $(IntDir)\external\build $(IntDir)\external\install RelWithDebInfo -x64</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
