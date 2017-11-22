@@ -22,12 +22,18 @@
     <ClInclude Include="interfaces\IAnalyzer.h">
       <Filter>interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="interfaces\IComparator.h">
+      <Filter>interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CAnalyzer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -161,12 +161,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interfaces\IAnalyzer.h" />
+    <ClInclude Include="interfaces\IComparator.h" />
     <ClInclude Include="interfaces\IObserverError.h" />
     <ClInclude Include="interfaces\IObserverTask.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CAnalyzer.cpp" />
+    <ClCompile Include="CComparator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

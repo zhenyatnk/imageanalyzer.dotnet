@@ -102,14 +102,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Notifier.cs" />
+    <Compile Include="operations\ObserverOperationCompare.cs" />
     <Compile Include="operations\ObserverOperation.cs" />
     <Compile Include="view_model\command\CheckCommand.cs" />
+    <Compile Include="view_model\command\CompareFileCommand.cs" />
     <Compile Include="view_model\command\SaveProjectCommand.cs" />
     <Compile Include="view_model\command\AddFilesCommand.cs" />
     <Compile Include="view_model\command\OpenProjectCommand.cs" />
     <Compile Include="view_model\command\AddFolderCommand.cs" />
     <Compile Include="view_model\command\CancelCommand.cs" />
     <Compile Include="view_model\ObservableCollectionDisp.cs" />
+    <Compile Include="view_model\ObservableDictionary.cs" />
+    <Compile Include="view_model\OperationViewCompare.cs" />
     <Compile Include="view_model\OperationView.cs" />
     <Compile Include="view_model\ViewModel.cs" />
     <Page Include="MainWindow.xaml">

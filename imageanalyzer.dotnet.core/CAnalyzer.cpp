@@ -100,6 +100,8 @@ public:
     virtual void add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObserver) override;
     virtual bool complete() override;
 
+    virtual void analyze_sync(String^ aFileName, String^ aFileToSave) override;
+
 private:
     threadpoolex::core::ITimerActive::Ptr* m_timer;
     threadpoolex::core::IThreadPool::Ptr* m_threadpool;
@@ -139,6 +141,11 @@ void CAnalyzer::add_task(String^ aFileName, ICollection<interfaces::IObserverTas
 bool CAnalyzer::complete()
 {
     return *m_CountCompleted == *m_Count;
+}
+
+void CAnalyzer::analyze_sync(String^ aFileName, String^ aFileToSave)
+{
+    CreateTaskAnalyzeInFile(MarshalString(aFileName), MarshalString(aFileToSave))->Execute();
 }
 
 interfaces::IAnalyzer^ IAnalyzerCreate::Create()

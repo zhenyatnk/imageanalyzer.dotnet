@@ -11,10 +11,32 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="8,8,8,8">
-                <Button Content="Open project" Command="{Binding OpenProjectCommand}" Margin="0,0,0,2" />
-                <Button Content="Add folder" Command="{Binding AddFolderCommand}" Margin="0,0,0,2" />
-                <Button Content="Add files" Command="{Binding AddFilesCommand}" Margin="0,0,0,2" />
+            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="8,8,8,8">
+                        <Button Content="Open project" Command="{Binding OpenProjectCommand}" Margin="0,0,0,2" />
+                        <Button Content="Add folder" Command="{Binding AddFolderCommand}" Margin="0,0,0,2" />
+                        <Button Content="Add files" Command="{Binding AddFilesCommand}" Margin="0,0,0,2" />
+                        <Button Content="Compare" Command="{Binding CompareFileCommand}" Margin="0,0,0,2" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="8,8,8,8">
+                        <ItemsControl ItemsSource="{Binding Path=Compare.ViewResult}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Path=Item1}"  HorizontalAlignment="Center"/>
+                                        <Image Source="{Binding Path=Item2}" Width="50" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
             <StackPanel Name="StatusStack" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <ItemsControl ItemsSource="{Binding Operations}">

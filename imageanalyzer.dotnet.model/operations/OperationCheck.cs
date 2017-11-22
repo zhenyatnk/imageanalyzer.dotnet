@@ -51,12 +51,9 @@ namespace imageanalyzer.dotnet.model.operations
                 GetObserver().NotifyComplete();
                 return list_need_analyze;
             }).ContinueWith( list => {
-                if(list.Result.Count != 0)
-                {
-                    var operation = new OperationAnalyze(list.Result, cancel.Token);
-                    operation.AddObserver(observer_analyze);
-                    operation.Execute();
-                }
+                var operation = new OperationAnalyze(list.Result, cancel.Token);
+                operation.AddObserver(observer_analyze);
+                operation.Execute();
             });
         }
 

@@ -10,4 +10,9 @@ namespace imageanalyzer.dotnet.model.operations
     {
         void Execute();
     }
+    public interface IOperationCompare
+    : IObservableOperationCompare
+    {
+        void Execute();
+    }
 }

@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="meta\FileMetaInfo.cs" />
+    <Compile Include="operations\IObserverOperationCompare.cs" />
+    <Compile Include="operations\OperationCompare.cs" />
     <Compile Include="operations\tasks\ObserverTaskMeta.cs" />
     <Compile Include="operations\tasks\ObserverTaskProgress.cs" />
     <Compile Include="operations\IObserverOperation.cs" />

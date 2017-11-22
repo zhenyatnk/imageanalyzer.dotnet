@@ -11,21 +11,18 @@ namespace dotnet {
 namespace core {
 namespace interfaces {
 
-public interface class IAnalyzer
+public interface class IComparator
     :public IDisposable
 {
-    void add_task(String^ aFileName, ICollection<interfaces::IObserverTask^>^ aObservers);
-    bool complete();
-
-    void analyze_sync(String^ aFileName, String^ aFileToSave);
+    double compare(String^ aFileName);
 };
 
 }
 
-public ref class IAnalyzerCreate
+public ref class IComparatorCreate
 {
 public:
-    static interfaces::IAnalyzer^ Create();
+    static interfaces::IComparator^ Create(String^ aFileFind);
 };
 
 }
