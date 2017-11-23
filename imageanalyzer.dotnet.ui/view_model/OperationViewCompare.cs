@@ -11,7 +11,7 @@ namespace imageanalyzer.dotnet.ui.view_model
         {
             CancelCommand = new command.CancelCommand(_cancel);
             view_result = new ObservableCollectionDisp<Tuple<double, string>>();
-            result = new Dictionary<double, string>();
+            result = new MultiSortedList<double, string>(new CompareReverse<double>());
         }
         
         public ObservableCollectionDisp<Tuple<double, string>> ViewResult
@@ -24,7 +24,7 @@ namespace imageanalyzer.dotnet.ui.view_model
             }
         }
 
-        public Dictionary<double, string> Result
+        public MultiSortedList<double, string> Result
         {
             get { return result; }
             set
@@ -37,6 +37,6 @@ namespace imageanalyzer.dotnet.ui.view_model
         public command.CancelCommand CancelCommand { get; set; }
 
         private ObservableCollectionDisp<Tuple<double, string>> view_result;
-        private Dictionary<double, string> result;
+        private MultiSortedList<double, string> result;
     }
 }

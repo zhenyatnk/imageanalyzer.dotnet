@@ -8,14 +8,14 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="8,8,8,8">
@@ -24,18 +24,23 @@
                         <Button Content="Add files" Command="{Binding AddFilesCommand}" Margin="0,0,0,2" />
                         <Button Content="Compare" Command="{Binding CompareFileCommand}" Margin="0,0,0,2" />
                     </StackPanel>
-                    <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="8,8,8,8">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Grid.Row="0" Grid.Column="1" Margin="8,8,8,8">
                         <ItemsControl ItemsSource="{Binding Path=Compare.ViewResult}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Path=Item1}"  HorizontalAlignment="Center"/>
-                                        <Image Source="{Binding Path=Item2}" Width="50" />
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                        <Image Source="{Binding Path=Item2}" Width="150" />
+                                        <TextBlock Text="{Binding Path=Item1, StringFormat=N2}"  HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </StackPanel>
             <StackPanel Name="StatusStack" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
