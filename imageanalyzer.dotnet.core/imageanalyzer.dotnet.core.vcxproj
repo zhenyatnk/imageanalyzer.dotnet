@@ -101,7 +101,7 @@
       <AdditionalIncludeDirectories>$(IntDir)\external\install\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
+      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;baseex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -117,7 +117,7 @@
       <AdditionalIncludeDirectories>$(IntDir)\external\install\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
+      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;baseex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -132,7 +132,7 @@
       <AdditionalIncludeDirectories>$(IntDir)\external\install\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
+      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;baseex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -147,7 +147,7 @@
       <AdditionalIncludeDirectories>$(IntDir)\external\install\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
+      <AdditionalDependencies>imageanalyzer.native_core.lib;threadpoolex_core.lib;baseex_core.lib;gdiplus.lib;Pdh.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IntDir)\external\install\lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>

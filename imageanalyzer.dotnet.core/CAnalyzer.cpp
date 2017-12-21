@@ -11,6 +11,7 @@ namespace imageanalyzer {
 namespace dotnet {
 namespace core {
 
+using namespace baseex::core;
 using namespace threadpoolex::core;
 using namespace imageanalyzer::native::core;
 
@@ -103,7 +104,7 @@ public:
     virtual void analyze_sync(String^ aFileName, String^ aFileToSave) override;
 
 private:
-    threadpoolex::core::ITimerActive::Ptr* m_timer;
+    baseex::core::ITimerActive::Ptr* m_timer;
     threadpoolex::core::IThreadPool::Ptr* m_threadpool;
     std::atomic_int* m_CountCompleted;
     std::atomic_int* m_Count;
@@ -111,7 +112,7 @@ private:
 
 CAnalyzer::CAnalyzer()
     :m_timer(new ITimerActive::Ptr(CreateTimerActive(1000))),
-    m_threadpool(new threadpoolex::core::IThreadPool::Ptr(CreateThreadPool(1, CreateExpansionToCPU(threadpoolex::core::CreateSystemInfo(), 80, 1)))),
+    m_threadpool(new threadpoolex::core::IThreadPool::Ptr(CreateThreadPool(1, CreateExpansionToCPU(baseex::core::CreateSystemInfo(), 80, 1)))),
     m_CountCompleted(new std::atomic_int(0)),
     m_Count(new std::atomic_int(0))
 {

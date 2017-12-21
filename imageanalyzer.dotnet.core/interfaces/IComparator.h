@@ -1,6 +1,6 @@
 #pragma once
 
-#include "threadpoolex\core\ITimerActive.hpp"
+#include "baseex\core\ITimerActive.hpp"
 #include "IObserverTask.h"
 
 using namespace System;
